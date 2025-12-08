@@ -21,3 +21,25 @@ a.active hr{
     color: white;
   }
 }
+
+/* Collapsible animation for small-screen filters */
+.collapsible{
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 280ms cubic-bezier(.4,0,.2,1), opacity 200ms ease;
+}
+.collapsible.open{
+  max-height: 1000px; /* large enough to fit content */
+  opacity: 1;
+}
+
+/* On larger screens, always show and disable animation */
+@media (min-width: 640px) {
+  .collapsible{
+    overflow: visible;
+    max-height: none;
+    opacity: 1;
+    transition: none;
+  }
+}
