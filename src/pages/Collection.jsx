@@ -11,7 +11,9 @@ const Collection = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
-  console.log(products);
+  // console.log(products);
+
+  const [sortType, setSortType] = useState('relevant');
 
   const toggleCategory = (e) => {
     if (category.includes(e.target.value)) {
@@ -40,13 +42,40 @@ const Collection = () => {
     setFilteredProducts(productsCopy)
   };
 
-  useEffect(() => {
-    setFilteredProducts(products);
-  }, []);
+
+  // Sorting Products 
+
+  const sortProducts = () =>{
+
+    let fpCopy = filteredProducts.slice();
+    
+    switch (sortType){
+      case 'low-high' :
+        setFilteredProducts(fpCopy.sort((a,b) => a.price - b.price));
+        break;
+        case 'high-low' :
+          setFilteredProducts(fpCopy.sort((a,b) => b.price - a.price));
+          break;
+        case 'newest':
+          setFilteredProducts(fpCopy.sort((a,b) => b.date - a.date));
+          break;
+        default:
+          applyFilter();
+          break;
+    }
+
+  }
+
+
+
 
   useEffect(() => {
     applyFilter();
   }, [category, subCategory]);
+
+  useEffect(() => {
+    sortProducts();
+  }, [sortType]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t">
@@ -155,11 +184,11 @@ const Collection = () => {
 
           {/* Products Sort  */}
 
-          <select className="border-2 border-gray-300 text-sm px-2">
-            <option value="">Sort by: Relevant</option>
-            <option value="">Price: Low to High</option>
-            <option value="">Price: High to Low</option>
-            <option value="">Newest</option>
+          <select onChange={(e) => setSortType(e.target.value)} className="border-2 border-gray-300 text-sm px-2">
+            <option value="relevant">Sort by: Relevant</option>
+            <option value="low-high">Price: Low to High</option>
+            <option value="high-low">Price: High to Low</option>
+            <option value="newest">Newest</option>
           </select>
         </div>
         {/* Map Products to Display  */}
