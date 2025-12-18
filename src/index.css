@@ -34,6 +34,10 @@ a.active hr{
   opacity: 1;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 /* On larger screens, always show and disable animation */
 @media (min-width: 640px) {
   .collapsible{
